@@ -1,0 +1,162 @@
+<html>
+<head>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="style.css">
+     
+<body>
+    
+    
+</head>
+<body>
+    
+    <script>
+        var app = angular.module("foodList", []);
+        var calTotal = 0;
+        var proTotal = 0;
+        var fatTotal = 0;
+        var carbTotal = 0;
+        var proPercent = 0;
+        var fatPercent = 0;
+        var carbPercent = 0;
+        app.controller("controller", function($scope) {
+            $scope.listItem = [];
+            $scope.items = [];
+            $scope.cal = [];
+            $scope.pro = [];
+            $scope.fats = [];
+            $scope.carb = [];
+            $scope.addItem = function () {
+                $scope.listItem.push("");
+                $scope.items.push($scope.addFood);
+                $scope.cal.push($scope.addCal);
+                $scope.pro.push($scope.addPro);
+                $scope.fats.push($scope.addFat);
+                $scope.carb.push($scope.addCarbs);
+                $('.input').val("");
+            }
+            
+            $scope.calTotal = function() {
+                var total = 0;
+                for(var i = 0; i < $scope.cal.length; i++) {
+                    var x = $scope.cal[i];
+                    total += x;
+                }
+                
+                return total;
+            }
+            
+            $scope.proTotal = function() {
+                var total = 0;
+                for(var i = 0; i < $scope.pro.length; i++) {
+                    var x = $scope.pro[i];
+                    total += x;
+                }
+                
+                return total;
+            }
+            
+            $scope.proPercent = function() {
+                var total = 0;
+                var totalCal = $scope.calTotal();
+                
+                for(var i = 0; i < $scope.pro.length; i++) {
+                    var x = $scope.pro[i];
+                    total += x;
+                }
+                
+                var result = total / totalCal;
+                var percentage = Math.round(result*100)/100;
+                return percentage;
+            }
+            
+            $scope.fatTotal = function() {
+                var total = 0;
+                for(var i = 0; i < $scope.fats.length; i++) {
+                    var x = $scope.fats[i];
+                    total += x;
+                }
+                
+                return total;
+            }
+            
+            $scope.fatPercent = function() {
+                var total = 0;
+                var totalCal = $scope.calTotal();
+                
+                for(var i = 0; i < $scope.fats.length; i++) {
+                    var x = $scope.fats[i];
+                    total += x;
+                }
+                
+                var result = total / totalCal;
+                var percentage = Math.round(result*100)/100;
+                return percentage;
+            }
+            
+            $scope.carbTotal = function() {
+                var total = 0;
+                for(var i = 0; i < $scope.carb.length; i++) {
+                    var x = $scope.carb[i];
+                    total += x;
+                }
+                
+                return total;
+            }
+            
+            $scope.carbsPercent = function() {
+                var total = 0;
+                var totalCal = $scope.calTotal();
+                
+                for(var i = 0; i < $scope.carb.length; i++) {
+                    var x = $scope.carb[i];
+                    total += x;
+                }
+                
+                var result = total / totalCal;
+                var percentage = Math.round(result*100)/100;
+                return percentage;
+            }
+            
+            $scope.calRemaining = function() {
+                cTotal = 2500;
+                cCurrent = $scope.calTotal();
+                cRemain = cTotal - cCurrent;
+                return cRemain;              
+            }
+        });
+        
+    </script>
+    
+    <div class="top-bar">
+        <h1>Macro Pro</h1>
+    
+    </div>
+    
+    <div class="app" ng-app="foodList" ng-controller="controller">
+        <input class="input" ng-model="addFood" placeholder="Food Item">
+        <input type="number" class="input" ng-model="addCal" placeholder="Calories">
+        <input type="number" class="input" ng-model="addPro" placeholder="Protein(g)">
+        <input type="number" class="input" ng-model="addFat" placeholder="Fat(g)">
+        <input type="number" class="input" ng-model="addCarbs" placeholder="Carbs(g)">
+        <button ng-click="addItem()" class="addButton">Add</button>
+        <ul>
+            <li ng-repeat="foodItem in items">{{foodItem}}</li>
+        </ul>
+        
+        <h2>Daily Totals</h2>
+        <div class="line"></div>
+        <p>Calories: {{ calTotal() }}</p>
+        <p>Protein: {{ proTotal() }}(g)  -->  {{ proPercent() }}%</p>
+        <p>Fat: {{ fatTotal() }}(g)  -->  {{ fatPercent() }}%</p>
+        <p>Carbs: {{ carbTotal() }}(g)  -->  {{ carbsPercent() }}%</p>
+        
+        <h3>Your daily calorie goal is 2500. You have {{ calRemaining() }}kC left to go.</h3>
+    </div>
+    
+</body>
+
+</html>
